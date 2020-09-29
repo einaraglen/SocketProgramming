@@ -16,11 +16,11 @@ namespace SocketProgramming {
         public void Log(string log) {
             if (isClient) {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("[NETWORK CLIENT] ");
+                Console.Write("[CLIENT] ");
             }
             else {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write("[NETWORK SERVER] ");
+                Console.Write("[SERVER] ");
             }
 
             Console.ForegroundColor = ConsoleColor.White;

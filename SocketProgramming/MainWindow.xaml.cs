@@ -18,19 +18,35 @@ using System.Threading;
 namespace SocketProgramming {
     //GUI Controller
     public partial class MainWindow : Window {
+
+        Client c = new Client();
+
         public MainWindow() {
             InitializeComponent();
-            Server s = new Server();
-            Client c = new Client();
+            StartUp();
 
-            Thread RunCaller = new Thread(
-            new ThreadStart(s.Run));
-            // Start the thread.
+            button.Click += button_Click;
+        }
+
+        public void StartUp() {
+            Server s = new Server();
+            //Client c1 = new Client();
+
+            Thread RunCaller = new Thread(new ThreadStart(s.Run));
+            // Start the threads.
             RunCaller.Start();
 
             //Waits for the server to start on different thread
-            Thread.Sleep(1000);
-            c.Run();
+            //Thread.Sleep(1000);
+            //Thread Client1Caller = new Thread(new ThreadStart(c1.Run));
+
+            //Client1Caller.Start();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e) {
+            //Client c = new Client();
+            Random r = new Random();
+            c.Send("Random NR " + r.Next(10, 50)); ;
         }
     }
 }
