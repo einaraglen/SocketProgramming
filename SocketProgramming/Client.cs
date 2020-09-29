@@ -16,31 +16,35 @@ namespace SocketProgramming {
         public void Run() {
             logger.Log("Client started...");
 
-            Socket socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+            byte[] bytes = new byte[1024];
+
             try {
-                socket.Connect(ADDRESS, PORT);
-                logger.Log("Successfully connected");
-                
-                //Sending data to server
-                byte[] data = System.Text.Encoding.ASCII.GetBytes("GET / HTTP/1.0\r\n\r\n");
-                socket.Send(data);
+                IPHostEntry host = Dns.GetHostEntry(ADDRESS);
+                IPAddress ipAddress = host.AddressList[0];
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, PORT);
 
-                //Get HTTP respind from server
-                byte[] buffer = new byte[1024];
-                int byteNumber = socket.Receive(buffer);
-                logger.Log(byteNumber.ToString() + " bytes recieved");
-                char[] chars = new char[byteNumber];
+                Socket sender = new Socket(ipAddress.AddressFamily,
+                SocketType.Stream, ProtocolType.Tcp);
 
-                Decoder decoder = Encoding.UTF8.GetDecoder();
-                int charLenght = decoder.GetChars(buffer, 0, byteNumber, chars, 0);
-                string recived = new string(chars);
+                sender.Connect(remoteEP);
+                logger.Log("Socket connected to : " +
+                    sender.RemoteEndPoint.ToString());
 
-                logger.Log(recived);
+                byte[] msg = Encoding.ASCII.GetBytes("This is a test<EOF>");
 
-                socket.Disconnect(false);
-                socket.Close();
+                // Send the data through the socket.    
+                int bytesSent = sender.Send(msg);
+
+                // Receive the response from the remote device.    
+                int bytesRec = sender.Receive(bytes);
+                logger.Log("Echoed test :" +
+                    Encoding.ASCII.GetString(bytes, 0, bytesRec));
+
+                // Release the socket.    
+                sender.Shutdown(SocketShutdown.Both);
+                sender.Close();
             }
-            catch(SocketException e) {
+            catch (SocketException e) {
                 logger.Exception("Connection to server failed : " + e.Message);
             }
         }

@@ -19,7 +19,7 @@ namespace SocketProgramming {
                 Console.Write("[NETWORK CLIENT] ");
             }
             else {
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("[NETWORK SERVER] ");
             }
 
