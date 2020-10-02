@@ -37,7 +37,7 @@ namespace SocketProgramming {
 
                 // Send the data through the socket.    
                 int bytesSent = sender.Send(msg);    
-                //sender.Close();
+                sender.Close();
             }
             catch (SocketException e) {
                 logger.Exception("Connection to server failed : " + e.Message);

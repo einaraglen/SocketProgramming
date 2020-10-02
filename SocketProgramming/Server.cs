@@ -34,9 +34,11 @@ namespace SocketProgramming {
 
                 logger.Log("Waiting for a connection...");
 
+                ClientHandler handler = new ClientHandler();
+
                 while (true) {
                     Socket current = listener.Accept();
-                    ClientHandler handler = new ClientHandler(current);
+                    handler.NewClient(current);
 
                     clients.Add(current);
 

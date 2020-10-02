@@ -13,8 +13,11 @@ namespace SocketProgramming {
         private Thread thread;
         private Socket current;
 
-        public ClientHandler(Socket current) {
+        public ClientHandler() {
             this.thread = new Thread(new ThreadStart(this.Start));
+        }
+
+        public void NewClient(Socket current) {
             this.current = current;
         }
 

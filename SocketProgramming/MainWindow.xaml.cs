@@ -30,17 +30,9 @@ namespace SocketProgramming {
 
         public void StartUp() {
             Server s = new Server();
-            //Client c1 = new Client();
-
             Thread RunCaller = new Thread(new ThreadStart(s.Run));
             // Start the threads.
             RunCaller.Start();
-
-            //Waits for the server to start on different thread
-            //Thread.Sleep(1000);
-            //Thread Client1Caller = new Thread(new ThreadStart(c1.Run));
-
-            //Client1Caller.Start();
         }
 
         private void button_Click(object sender, RoutedEventArgs e) {
